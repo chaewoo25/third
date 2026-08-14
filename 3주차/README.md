@@ -27,8 +27,9 @@ third/
 │   ├── data.json      # 크기별 필터 및 테스트 패턴 데이터셋
 │   └── README.md      # 3주차 가이드 파일
 └── README.md          # 메인 결과 리포트 (본 문서)
-
+```
 3. 프로그램 실행 예시 (Execution Examples)
+```text
 💻 [모드 1] 사용자 직접 입력 시뮬레이션
 🤖 Mini NPU Simulator (패턴 매칭 & MAC)
 ==========================================
@@ -75,8 +76,9 @@ X 필터 점수    : 2.0000
 
 [실패 케이스 상세 목록]
 - size_13_1: 판정(UNDECIDED) != expected(X) [동점 또는 오판]
-
+```
 4. 결과 리포트 (Result Report)
+```text
 1) 실패 케이스 원인 상세 분석
 대상 테스트: size_13_1
 
@@ -104,7 +106,9 @@ size_13_1 패턴에 대해 Cross 필터의 MAC 연산 점수와 X 필터의 MAC 
 25 × 25 (N² = 625): 0.0524 ms
 
 분석 결론: 패턴 크기 N이 커질수록 연산 횟수(N²)가 이차함수 형태로 급증하며, 10회 평균 실행 시간(ms) 또한 연산 횟수 N²의 증가 추세에 정비례함을 확인하여 이론적 복잡도 O(N²)를 정량적으로 입증하였습니다.
-
+```
 🚀 5. 실행 방법 (How to Run)
+```text
 1. 리포지토리 클론 : git clone https://github.com/chaewoo25/third.git
 2. 메인 시뮬레이터 실행 : python 3주차/main.py
+```
