@@ -68,4 +68,4 @@ X 필터 점수    : 2.0000
 
 1. 리포지토리 클론:
    ```bash
-   git clone [https://github.com/chaewoo25/third.git](https://github.com/chaewoo25/third.git)
+   git clone (https://github.com/chaewoo25/third.git)
