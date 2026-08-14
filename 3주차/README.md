@@ -2,7 +2,7 @@
 
 **코디세이 AI All-in-One 2기**  
 *작성자* : 박채우  
-*GitHub Repository* : (https://github.com/chaewoo25/third)
+*GitHub Repository* : [https://github.com/chaewoo25/third](https://github.com/chaewoo25/third)
 
 ---
 
@@ -18,6 +18,18 @@
 
 ---
 
+## 2. 파일 구조 (Project Structure)
+
+```text
+third/
+├── 3주차/
+│   ├── main.py        # 시뮬레이터 메인 실행 파일 (모드 1, 모드 2 구현)
+│   ├── data.json      # 크기별 필터 및 테스트 패턴 데이터셋
+│   └── README.md      # 3주차 가이드 파일
+└── README.md          # 메인 결과 리포트 (본 문서)
+
+3. 프로그램 실행 예시 (Execution Examples)
+💻 [모드 1] 사용자 직접 입력 시뮬레이션
 🤖 Mini NPU Simulator (패턴 매칭 & MAC)
 ==========================================
 1. 사용자 입력 (3x3)
@@ -38,9 +50,10 @@ X 필터 점수    : 2.0000
 최종 판정     : Cross
 실행 시간     : 0.0025 ms
 
+📊 [모드 2] data.json 패턴 분석 및 프로파일링
 선택 (1~3): 2
 [모드 2] data.json 패턴 분석 및 프로파일링
-
+==========================================
 
 # [1] 패턴 분석 (라벨 정규화 및 테스트)
 -- size_5_1 -- | Cross: 9.0000 | X: 1.0000 | 판정: Cross | expected: Cross | PASS
@@ -63,8 +76,35 @@ X 필터 점수    : 2.0000
 [실패 케이스 상세 목록]
 - size_13_1: 판정(UNDECIDED) != expected(X) [동점 또는 오판]
 
-## 🚀 5. 실행 방법 (How to Run)
+4. 결과 리포트 (Result Report)
+1) 실패 케이스 원인 상세 분석
+대상 테스트: size_13_1
 
-1. 리포지토리 클론:
-   ```bash
-   git clone (https://github.com/chaewoo25/third.git)
+결과: 판정: UNDECIDED | expected: X → FAIL
+
+상세 원인:
+
+size_13_1 패턴에 대해 Cross 필터의 MAC 연산 점수와 X 필터의 MAC 연산 점수가 모두 11.2500으로 동일하게 산출되었습니다.
+
+본 시뮬레이터는 부동소수점 오차 대응 및 동점 처리 기준인 허용 오차(ε = 10⁻⁶) 알고리즘 (abs(score_cross - score_x) < 1e-6)을 적용합니다.
+
+두 점수의 차이가 허용 오차 범위 내에 수렴함에 따라 최종 판정이 UNDECIDED로 처리되었으며, 기댓값(X)과 불일치하여 최종 FAIL로 집계되었습니다.
+
+2) 크기별 알고리즘 시간 복잡도 정량 분석
+이론적 시간 복잡도: N × N 2차원 리스트에 대해 이중 반복문 기반의 곱셈-누적(MAC)을 수행하므로 이론적 시간 복잡도는 O(N²)입니다.
+
+실측 성능 데이터 비교:
+
+3 × 3 (N² = 9): 0.0023 ms
+
+5 × 5 (N² = 25): 0.0039 ms
+
+13 × 13 (N² = 169): 0.0210 ms
+
+25 × 25 (N² = 625): 0.0524 ms
+
+분석 결론: 패턴 크기 N이 커질수록 연산 횟수(N²)가 이차함수 형태로 급증하며, 10회 평균 실행 시간(ms) 또한 연산 횟수 N²의 증가 추세에 정비례함을 확인하여 이론적 복잡도 O(N²)를 정량적으로 입증하였습니다.
+
+🚀 5. 실행 방법 (How to Run)
+1. 리포지토리 클론 : git clone https://github.com/chaewoo25/third.git
+2. 메인 시뮬레이터 실행 : python 3주차/main.py
